@@ -1,0 +1,67 @@
+<div>
+    <h2 style="color: dodgerblue; margin: auto; margin-bottom: 20%;  margin-bottom: 5%; text-align: center;">Accedi o
+        Registrati</h2>
+</div>
+<div class="card text-center mb-3" style="width: 18rem;margin: auto;">
+    @if(existingUser){
+    <div class="card-body">
+        <form [formGroup]="loginForm" (ngSubmit)="login(loginForm)">
+            <div class="mb-3">
+                <label for="emailInput" class="form-label">Email</label>
+                <input type="email" class="form-control" id="emailInput" formControlName="emailAddress"
+                    aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3">
+                <label for="passwordInput" class="form-label">Password</label>
+                <input type="password" class="form-control" id="passwordInput" formControlName="saltedPassword">
+            </div>
+            <div class="row">
+                <div class="col">
+                    <button type="submit" class="btn btn-primary">Accedi</button>
+                </div>
+            </div>
+            <div class="row" style="margin-top: 5%;">
+                <div class="col">
+                    <button type="button" class="btn btn-outline-primary" (click)="displayForm()">
+                        Registrati
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    }@else {
+    <div class="card-body">
+        <form [formGroup]="signinForm" (ngSubmit)="signin(signinForm)">
+            <div class="mb-3">
+                <label for="emailInput" class="form-label">Email</label>
+                <input type="email" class="form-control" id="emailInput" formControlName="emailAddress"
+                    aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3">
+                <label for="passwordInput" class="form-label">Password</label>
+                <input type="password" class="form-control" id="passwordInput" formControlName="saltedPassword">
+            </div>
+            <div class="mb-3">
+                <label for="nameInput" class="form-label">Nome</label>
+                <input type="text" class="form-control" id="nameInput" formControlName="name">
+            </div>
+            <div class="mb-3">
+                <label for="surnameInput" class="form-label">Cognome</label>
+                <input type="text" class="form-control" id="surnameInput" formControlName="surname">
+            </div>
+            <div class="row" style="margin-top: 5%;">
+                <div class="col">
+                    <button type="submit" class="btn btn-primary">
+                        Registrati
+                    </button>
+                </div>
+                <div class="col">
+                    <button type="button" class="btn btn-outline-primary" (click)="displayForm()">
+                        Indietro
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    }
+</div>

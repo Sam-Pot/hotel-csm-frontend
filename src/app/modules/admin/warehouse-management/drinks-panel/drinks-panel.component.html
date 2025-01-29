@@ -1,0 +1,69 @@
+<div class="row justify-content-md-center" style="margin-top: 5%;">
+    <div class="col-md-auto">
+        <button type="button" class="btn btn-outline-primary" (click)="previousPage()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                class="bi bi-arrow-90deg-left" viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                    d="M1.146 4.854a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H12.5A2.5 2.5 0 0 1 15 6.5v8a.5.5 0 0 1-1 0v-8A1.5 1.5 0 0 0 12.5 5H2.707l3.147 3.146a.5.5 0 1 1-.708.708z" />
+            </svg>
+        </button>
+    </div>
+    <div class="col-md-auto">
+        <h2 style="color: dodgerblue; margin: auto; margin-bottom: 20%;  margin-bottom: 5%; text-align: center;">Bevande</h2>
+
+    </div>
+</div>
+<div class="table-responsive" style="width: 80%; margin: auto;">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Nome</th>
+                <th scope="col">Q.tà</th>
+                <th scope="col">Q.tà min</th>
+                <th scope="col">Q.tà da ordinare</th>
+                <th scope="col">Misura</th>
+                <th scope="col">Menù</th>
+                <th scope="col">Prezzo</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+
+            </tr>
+        </thead>
+        <tbody style="text-align: center;">
+            <tr>
+                <td colspan="10">
+                    <a href="admin/warehouse/productDetail?productType={{productType}}&productType=">
+                        <button type="button" class="btn btn-success" style="width: 100%;">
+                            Aggiungi
+                        </button>
+                    </a>
+                </td>
+            </tr>
+            @for (drink of drinks; track $index) {
+            <tr>
+                <td scope="col">{{drink.id}}</td>
+                <td scope="col">{{drink.name}}</td>
+                <td scope="col">{{drink.quantity}}</td>
+                <td scope="col">{{drink.minQuantity}}</td>
+                <td scope="col">{{drink.quantityToOrder}}</td>
+                <td scope="col">{{drink.unitOfMeasurement}}</td>
+                <td scope="col">{{drink.isActiveInMenu}}</td>
+                <td scope="col">{{drink.price}} €</td>
+                <td scope="col">
+                    <a href="admin/warehouse/productDetail?productType={{productType}}&productId={{drink.id}}">
+                        <button type="button" class="btn btn-primary">
+                            Apri
+                        </button>
+                    </a>
+                </td>
+                <td scope="col">
+                    <button type="button" class="btn btn-danger" (click)="delete(drink.id)">
+                        Elimina
+                    </button>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>

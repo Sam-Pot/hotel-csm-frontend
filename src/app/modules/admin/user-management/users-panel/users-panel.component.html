@@ -1,0 +1,64 @@
+<div class="row justify-content-md-center" style="margin-top: 5%;">
+    <div class="col-md-auto">
+        <button type="button" class="btn btn-outline-primary" (click)="previousPage()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                class="bi bi-arrow-90deg-left" viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                    d="M1.146 4.854a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H12.5A2.5 2.5 0 0 1 15 6.5v8a.5.5 0 0 1-1 0v-8A1.5 1.5 0 0 0 12.5 5H2.707l3.147 3.146a.5.5 0 1 1-.708.708z" />
+            </svg>
+        </button>
+    </div>
+    <div class="col-md-auto">
+        <h2 style="color: dodgerblue; margin: auto; margin-bottom: 20%;  margin-bottom: 5%; text-align: center;">
+            Pannello
+            gestione utenti</h2>
+    </div>
+</div>
+<div class="table-responsive" style="width: 90%; margin: auto;">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Email</th>
+                <th scope="col">Nome</th>
+                <th scope="col">Cognome</th>
+                <th scope="col">Ruolo</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (user of users; track $index) {
+            <tr>
+                <td>
+                    {{user.id}}
+                </td>
+                <td>
+                    {{user.emailAddress}}
+                </td>
+                <td>
+                    {{user.name}}
+                </td>
+                <td>
+                    {{user.surname}}
+                </td>
+                <td>
+                    {{roles[user.role]}}
+                </td>
+                <td>
+                    <button type="button" class="btn btn-danger" (click)="deleteUser(user.id)">
+                        Elimina
+                    </button>
+                </td>
+                <td>
+                    <a href="admin/users/userDetail?userId={{user.id}}">
+                        <button type="button" class="btn btn-primary">
+                            Apri
+                        </button>
+                    </a>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>

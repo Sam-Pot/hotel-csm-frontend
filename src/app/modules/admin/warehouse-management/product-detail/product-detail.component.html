@@ -1,0 +1,142 @@
+<div class="row justify-content-md-center" style="margin-top: 5%;">
+    <div class="col-md-auto">
+        <button type="button" class="btn btn-outline-primary" (click)="discard()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                class="bi bi-arrow-90deg-left" viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                    d="M1.146 4.854a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H12.5A2.5 2.5 0 0 1 15 6.5v8a.5.5 0 0 1-1 0v-8A1.5 1.5 0 0 0 12.5 5H2.707l3.147 3.146a.5.5 0 1 1-.708.708z" />
+            </svg>
+        </button>
+    </div>
+    <div class="col-md-auto">
+        <h2 style="color: dodgerblue; margin: auto; margin-bottom: 20%;  margin-bottom: 5%; text-align: center;">{{this.id?"Dettagli Prodotto": "Nuovo Prodotto"}}</h2>
+    </div>
+</div>
+<form [formGroup]="productForm" (ngSubmit)="id?update(productForm):save(productForm)">
+    <div class="card w-50 mb-3" style="margin: auto;">
+        <div class="card-body">
+            <div class="row">
+                <div class="col">
+                    <label class="form-check-label">
+                        Id
+                    </label>
+                    <input type="text" class="form-control" value="{{id}}" aria-label="Id" readonly style="background-color: lightgray;">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label class="form-check-label">
+                        Nome
+                    </label>
+                    <input [ngModel]="product.name" type="text" class="form-control" aria-label="Nome"
+                        formControlName="name">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label class="form-check-label">
+                        Quantità
+                    </label>
+                    <input type="number" min="0" class="form-control" [ngModel]="product.quantity" aria-label="Quantità"
+                        formControlName="quantity">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label class="form-check-label">
+                        Quantità minima
+                    </label>
+                    <input type="number" min="0" class="form-control" [ngModel]="product.minQuantity"
+                        aria-label="Quantità minima" formControlName="minQuantity">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label class="form-check-label">
+                        Quantità da ordinare
+                    </label>
+                    <input type="number" min="0" class="form-control" [ngModel]="product.quantityToOrder"
+                        aria-label="Quantità da ordinare" formControlName="quantityToOrder">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label class="form-check-label">
+                        Unità di misura
+                    </label>
+                    <select class="form-control" formControlName="unitOfMeasurement">
+                        <option [selected]="product.unitOfMeasurement=='GRAMS'" value="GRAMS">{{convertedUnitOfMeasurements.GRAMS}}</option>
+                        <option [selected]="product.unitOfMeasurement=='LITERS'" value="LITERS">{{convertedUnitOfMeasurements.LITERS}}</option>
+                        <option [selected]="product.unitOfMeasurement=='PIECES'" value="PIECES">{{convertedUnitOfMeasurements.PIECES}}</option>
+                      </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+
+                    <label for="hallway" class="form-check-label">
+                        Corridoio
+                    </label>
+                    <input id="hallway" type="text" class="form-control" [ngModel]="product.position?.hallway"
+                        aria-label="Corridoio" formControlName="hallway">
+                    <label for="rack" class="form-check-label">
+                        Scaffale
+                    </label>
+                    <input id="rack" type="text" class="form-control" [ngModel]="product.position?.rack"
+                        aria-label="Scaffale" formControlName="rack">
+                    <label for="tier" class="form-check-label">
+                        Livello
+                    </label>
+                    <input id="tier" type="text" class="form-control" [ngModel]="product.position?.tier"
+                        aria-label="Livello" formControlName="tier">
+                </div>
+                @if(type=='drink'){
+                <div class="row">
+                    <div class="col">
+                        <label class="form-check-label">
+                            Prezzo
+                        </label>
+                        <input type="number" class="form-control" [ngModel]="product.price" aria-label="Prezzo"
+                            formControlName="price">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-check" style="margin-top: 5%;">
+                            <label class="form-check-label" for="isActiveInMenu">
+                                Attivo nel menù
+                            </label>
+                            <input [ngModel]="product.isActiveInMenu" class="form-check-input" type="checkbox"
+                                formControlName="isActiveInMenu" id="isActiveInMenu">
+                        </div>
+                    </div>
+                </div>
+                }
+            </div>
+            <br />
+            <div class="row">
+                <div class="card w-100 mb-3" style="margin: auto;">
+                    <div class="card-body" style="margin: auto; text-align: center;">
+                        <div class="row">
+                            <div class="col">
+                                <button type="submit" class="btn btn-success">
+                                    Salva
+                                </button>
+                            </div>
+                            <div class="col">
+                                <button type="button" class="btn btn-warning" (click)="discard()">
+                                    Annulla
+                                </button>
+                            </div>
+                            <div class="col">
+                                <button type="button" class="btn btn-danger" (click)="delete()">
+                                    Elimina
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

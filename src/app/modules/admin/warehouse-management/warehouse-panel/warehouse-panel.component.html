@@ -1,0 +1,21 @@
+<nav ngbNav #nav="ngbNav" class="nav-tabs justify-content-center">
+    <ng-container ngbNavItem>
+        <a ngbNavLink>Ingredienti</a>
+        <ng-template ngbNavContent>
+            <app-ingredients-panel></app-ingredients-panel>
+        </ng-template>
+    </ng-container>
+    <ng-container ngbNavItem>
+        <a ngbNavLink>Bevande</a>
+        <ng-template ngbNavContent>
+            <app-drinks-panel></app-drinks-panel>
+        </ng-template>
+    </ng-container>
+    <ng-container ngbNavItem>
+        <a ngbNavLink>Prodotti non alimentari</a>
+        <ng-template ngbNavContent>
+            <app-non-food-products></app-non-food-products>
+        </ng-template>
+    </ng-container>
+</nav>
+<div [ngbNavOutlet]="nav" class="mt-2"></div>

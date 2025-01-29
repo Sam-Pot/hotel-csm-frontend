@@ -1,0 +1,93 @@
+<div class="row justify-content-md-center" style="margin-top: 5%;">
+    <div class="col-md-auto">
+        <button type="button" class="btn btn-outline-primary" (click)="previousPage()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                class="bi bi-arrow-90deg-left" viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                    d="M1.146 4.854a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H12.5A2.5 2.5 0 0 1 15 6.5v8a.5.5 0 0 1-1 0v-8A1.5 1.5 0 0 0 12.5 5H2.707l3.147 3.146a.5.5 0 1 1-.708.708z" />
+            </svg>
+        </button>
+    </div>
+    <div class="col-md-auto">
+        <h2 style="color: dodgerblue; margin: auto; margin-bottom: 20%;  margin-bottom: 5%; text-align: center;">Dettagli utente</h2>    </div>
+</div>
+<form [formGroup]="userForm" (ngSubmit)="updateRole(userForm)">
+    <div class="card w-50 mb-3" style="margin: auto;">
+        <div class="card-body">
+            <div class="row">
+                <div class="col">
+                    <label class="form-check-label">
+                        Id
+                    </label>
+                    <input type="text" class="form-control" value="{{userData.id}}" aria-label="Id" disabled>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label class="form-check-label">
+                        Email
+                    </label>
+                    <input type="email" class="form-control" value="{{userData.emailAddress}}" aria-label="Email"
+                        disabled>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label class="form-check-label">
+                        Nome
+                    </label>
+                    <input type="text" class="form-control" value="{{userData.name}}" aria-label="Nome" disabled>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label class="form-check-label">
+                        Cognome
+                    </label>
+                    <input type="text" class="form-control" value="{{userData.surname}}" aria-label="Cognome" disabled>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label class="form-check-label">
+                        Ruolo
+                    </label>
+                    <select class="form-control" formControlName="role">
+                        <option [selected]="userData.role==0" value=0>{{roles.ADMIN}}</option>
+                        <option [selected]="userData.role==1" value=1>{{roles.COOK}}</option>
+                        <option [selected]="userData.role==2" value=2>{{roles.RECEPTIONIST}}</option>
+                        <option [selected]="userData.role==3" value=3>{{roles.STOCKMAN}}</option>
+                        <option [selected]="userData.role==4" value=4>{{roles.RESTAURANT_STAFF}}</option>
+                        <option [selected]="userData.role==5" value=5>{{roles.ROOM_STAFF}}</option>
+                        <option [selected]="userData.role==6" value=6>{{roles.CUSTOMER}}</option>
+                    </select>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="card w-100 mb-3" style="margin: auto;">
+                    <div class="card-body" style="margin: auto; text-align: center;">
+                        <div class="row">
+                            <div class="col">
+                                <button type="button" class="btn btn-danger" (click)="delete()">
+                                    Elimina
+                                </button>
+                            </div>
+                            <div class="col">
+                                <button type="submit" class="btn btn-success">
+                                    Salva
+                                </button>
+                            </div>
+                            <div class="col">
+                                <div>
+                                    <button type="button" class="btn btn-warning"
+                                        (click)="previousPage()">Annulla</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

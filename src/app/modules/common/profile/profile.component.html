@@ -1,0 +1,100 @@
+<div>
+    <h2 style="color: dodgerblue; margin: auto; margin-bottom: 20%;  margin-bottom: 5%; text-align: center;">Il tuo
+        profilo</h2>
+</div>
+<form [formGroup]="profileForm" (ngSubmit)="update(profileForm)">
+    <div class="card w-50 mb-3" style="margin: auto;">
+        <div class="card-body">
+            <div class="row">
+                <div class="col">
+                    <label class="form-check-label">
+                        Email
+                    </label>
+                    <input type="email" class="form-control" value="{{userData.emailAddress}}" aria-label="Email"
+                        formControlName="email">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label class="form-check-label">
+                        Nome
+                    </label>
+                    <input type="text" class="form-control" value="{{userData.name}}" aria-label="Nome"
+                        formControlName="name">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label class="form-check-label">
+                        Cognome
+                    </label>
+                    <input type="text" class="form-control" value="{{userData.surname}}" aria-label="Cognome"
+                        formControlName="surname">
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="card w-100 mb-3" style="margin: auto;">
+                    <div class="card-body" style="margin: auto; text-align: center;">
+                        <div class="row">
+                            <div class="col">
+                                <button type="button" style="height: 100%; width: 100%;" class="btn btn-primary" (click)="logout()">
+                                    Logout
+                                </button>
+                            </div>
+                            <div class="col">
+                                <button type="button" class="btn btn-danger" (click)="delete()">
+                                    Elimina account
+                                </button>
+                            </div>
+                            <div class="col">
+                                <button type="button" class="btn btn-warning" (click)="showUpdatePasswordField()">
+                                    Aggiorna password
+                                </button>
+                            </div>
+                            <div class="col">
+                                <div>
+                                    <button type="submit" class="btn btn-success">Salva Modifiche</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+@if(showUpdatePassword){
+    <form [formGroup]="passwordForm" (ngSubmit)="updatePassword(passwordForm)">
+        <div class="card w-50 mb-3" style="margin: auto;">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                        <label class="form-check-label">
+                            Vecchia Password
+                        </label>
+                        <input type="password" class="form-control" value="" aria-label="Vecchia password"
+                            formControlName="oldPassword">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <label class="form-check-label">
+                            Nuova Password
+                        </label>
+                        <input type="password" class="form-control" value="" aria-label="Nuova Password"
+                            formControlName="newPassword">
+                    </div>
+                </div>
+                <br/>
+                <div class="row">
+                    <div class="col">
+                        <div>
+                            <button type="submit" class="btn btn-success">Salva</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+}
