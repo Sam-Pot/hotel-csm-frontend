@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ApiService } from '../../../../shared-modules/api-http/api.service';
 import { NonFoodProductApi } from '../../../../shared-modules/auth/api/non-food-product.api';
 import { ActivatedRoute } from '@angular/router';
-import { LocationUtils } from '../../../../shared-modules/utils/location.utils';
+import { Helpers } from '../../../../shared-modules/utils/helpers';
 
 @Component({
   selector: 'app-non-food-products',
@@ -45,7 +45,7 @@ export class NonFoodProductsComponent {
   }
 
   previousPage(){
-    LocationUtils.reloadPreviousLocation(this.route);
+    Helpers.reloadPreviousLocation(this.route);
   }
 
   delete(productId: string) {

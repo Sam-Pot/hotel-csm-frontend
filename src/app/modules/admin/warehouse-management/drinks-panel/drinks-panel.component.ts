@@ -2,7 +2,9 @@ import { Component } from '@angular/core';
 import { ApiService } from '../../../../shared-modules/api-http/api.service';
 import { DrinkApi } from '../../../../shared-modules/auth/api/drink.api';
 import { ActivatedRoute } from '@angular/router';
-import { LocationUtils } from '../../../../shared-modules/utils/location.utils';
+import { Helpers } from '../../../../shared-modules/utils/helpers';
+import { JwtService } from '../../../../shared-modules/auth/services/jwt.service';
+import { Role } from '../../../../shared-modules/dtos/user-manager/role';
 
 @Component({
   selector: 'app-drinks-panel',
@@ -14,15 +16,22 @@ import { LocationUtils } from '../../../../shared-modules/utils/location.utils';
 export class DrinksPanelComponent {
 
   drinks: any;
-  readonly productType:string = "drink";
+  isDrinkManager: boolean = false;
+  readonly productType: string = "drink";
+
   constructor(
     private apiService: ApiService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private jwtService: JwtService
   ) {
 
   }
   ngOnInit(): void {
-    this.apiService.get(DrinkApi.FIND_URL).subscribe({
+    let role = this.jwtService.getRole() as unknown as Role;
+    this.isDrinkManager = (role == Role.ADMIN || role == Role.STOCKMAN);
+    let GET_AVAILABLE_DRINKS = DrinkApi.FIND_URL + "?filter[isActiveInMenu]=$eq:1";
+    let FIND_API = this.isDrinkManager ? DrinkApi.FIND_URL : GET_AVAILABLE_DRINKS;
+    this.apiService.get(FIND_API).subscribe({
       next: (data) => {
         if (data) {
           this.drinks = JSON.parse(JSON.stringify(data)).data;
@@ -44,8 +53,8 @@ export class DrinksPanelComponent {
     });
   }
 
-  previousPage(){
-    LocationUtils.reloadPreviousLocation(this.route);
+  previousPage() {
+    Helpers.reloadPreviousLocation(this.route);
   }
 
   delete(drinkId: string) {

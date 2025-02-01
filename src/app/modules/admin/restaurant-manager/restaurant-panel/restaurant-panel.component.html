@@ -1,0 +1,21 @@
+<nav ngbNav #nav="ngbNav" class="nav-tabs justify-content-center">
+    <ng-container ngbNavItem>
+        <a ngbNavLink>Piatti</a>
+        <ng-template ngbNavContent>
+            <app-dishes-panel></app-dishes-panel>
+        </ng-template>
+    </ng-container>
+    <ng-container ngbNavItem>
+        <a ngbNavLink>Tavoli</a>
+        <ng-template ngbNavContent>
+            <app-tables-panel></app-tables-panel>
+        </ng-template>
+    </ng-container>
+    <ng-container ngbNavItem>
+        <a ngbNavLink>Prenotazioni Ristorante</a>
+        <ng-template ngbNavContent>
+            <app-restaurant-reservations-panel></app-restaurant-reservations-panel>
+        </ng-template>
+    </ng-container>
+</nav>
+<div [ngbNavOutlet]="nav" class="mt-2"></div>

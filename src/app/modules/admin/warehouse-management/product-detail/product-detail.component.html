@@ -9,7 +9,8 @@
         </button>
     </div>
     <div class="col-md-auto">
-        <h2 style="color: dodgerblue; margin: auto; margin-bottom: 20%;  margin-bottom: 5%; text-align: center;">{{this.id?"Dettagli Prodotto": "Nuovo Prodotto"}}</h2>
+        <h2 style="color: dodgerblue; margin: auto; margin-bottom: 20%;  margin-bottom: 5%; text-align: center;">
+            {{this.id?"Dettagli Prodotto": "Nuovo Prodotto"}}</h2>
     </div>
 </div>
 <form [formGroup]="productForm" (ngSubmit)="id?update(productForm):save(productForm)">
@@ -20,7 +21,8 @@
                     <label class="form-check-label">
                         Id
                     </label>
-                    <input type="text" class="form-control" value="{{id}}" aria-label="Id" readonly style="background-color: lightgray;">
+                    <input type="text" class="form-control" value="{{id}}" aria-label="Id" readonly
+                        style="background-color: lightgray;">
                 </div>
             </div>
             <div class="row">
@@ -65,15 +67,17 @@
                         Unità di misura
                     </label>
                     <select class="form-control" formControlName="unitOfMeasurement">
-                        <option [selected]="product.unitOfMeasurement=='GRAMS'" value="GRAMS">{{convertedUnitOfMeasurements.GRAMS}}</option>
-                        <option [selected]="product.unitOfMeasurement=='LITERS'" value="LITERS">{{convertedUnitOfMeasurements.LITERS}}</option>
-                        <option [selected]="product.unitOfMeasurement=='PIECES'" value="PIECES">{{convertedUnitOfMeasurements.PIECES}}</option>
-                      </select>
+                        <option [selected]="product.unitOfMeasurement=='GRAMS'" value="GRAMS">
+                            {{convertedUnitOfMeasurements.GRAMS}}</option>
+                        <option [selected]="product.unitOfMeasurement=='LITERS'" value="LITERS">
+                            {{convertedUnitOfMeasurements.LITERS}}</option>
+                        <option [selected]="product.unitOfMeasurement=='PIECES'" value="PIECES">
+                            {{convertedUnitOfMeasurements.PIECES}}</option>
+                    </select>
                 </div>
             </div>
             <div class="row">
                 <div class="col">
-
                     <label for="hallway" class="form-check-label">
                         Corridoio
                     </label>

@@ -1,0 +1,194 @@
+<div class="row justify-content-md-center" style="margin-top: 5%;">
+    <div class="col-md-auto">
+        <button type="button" class="btn btn-outline-primary" (click)="discard()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                class="bi bi-arrow-90deg-left" viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                    d="M1.146 4.854a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H12.5A2.5 2.5 0 0 1 15 6.5v8a.5.5 0 0 1-1 0v-8A1.5 1.5 0 0 0 12.5 5H2.707l3.147 3.146a.5.5 0 1 1-.708.708z" />
+            </svg>
+        </button>
+    </div>
+    <div class="col-md-auto">
+        <h2 style="color: dodgerblue; margin: auto; margin-bottom: 20%;  margin-bottom: 5%; text-align: center;">
+            {{this.id?"Dettagli Piatto": "Nuovo Piatto"}}</h2>
+    </div>
+</div>
+<form [formGroup]="dishForm" (ngSubmit)="id?update(dishForm):save(dishForm)">
+    <div class="card w-50 mb-3" style="margin: auto;">
+        <div class="card-body">
+            <div class="row">
+                <div class="col">
+                    <label class="form-label">
+                        Nome
+                    </label>
+                    <input [ngModel]="dish.name" type="text" class="form-control" aria-label="Nome"
+                        formControlName="name">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label class="form-label">
+                        Descrizione
+                    </label>
+                    <textarea type="text" class="form-control" [ngModel]="dish.description" aria-label="Descrizione"
+                        formControlName="description"></textarea>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label class="form-check-label">
+                        Tipo
+                    </label>
+                    <select class="form-control" formControlName="type">
+                        <option [selected]="dish.type=='FIRST'" value="FIRST">
+                            {{convertedDishType.FIRST}}</option>
+                        <option [selected]="dish.type=='SECOND'" value="SECOND">
+                            {{convertedDishType.SECOND}}</option>
+                        <option [selected]="dish.type=='APPETIZER'" value="APPETIZER">
+                            {{convertedDishType.APPETIZER}}</option>
+                        <option [selected]="dish.type=='DESSERT'" value="DESSERT">
+                            {{convertedDishType.DESSERT}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label class="form-label">
+                        Prezzo
+                    </label>
+                    <input type="number" class="form-control" [ngModel]="dish.price" aria-label="Prezzo"
+                        formControlName="price">
+                </div>
+            </div>
+            @if(isAdmin){
+                <div class="row">
+                    <div class="col">
+                        <div class="form-check" style="margin-top: 5%;">
+                            <label class="form-check-label" for="isActiveInMenu">
+                                Attivo nel Menù
+                            </label>
+                            <input [ngModel]="dish.isActiveInMenu" class="form-check-input" type="checkbox"
+                                formControlName="isActiveInMenu" id="isActiveInMenu">
+                        </div>
+                    </div>
+                </div>
+            }
+            @if(isAdmin || isCook){
+            <div class="row" style="margin-top: 5%;">
+                <div class="card w-100 mb-3" style="margin: auto;">
+                    <div class="card-body w-100 mb-3" style="margin: auto; text-align: center;">
+                        <div class="row">
+                            <div class="col">
+                                <h3
+                                    style="color: green; margin: auto; margin-bottom: 20%;  margin-bottom: 5%; text-align: center;">
+                                    Ricetta
+                                </h3>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <label class="form-label">
+                                    Descrizione
+                                </label>
+                                <textarea type="text" class="form-control" [ngModel]="dish.recipe?.description"
+                                    aria-label="Descrizione Ricetta" formControlName="recipeDescription"></textarea>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 5%;">
+                            <div class="col">
+                                <h6 style="margin: auto; margin-bottom: 20%;  margin-bottom: 2%; text-align: center;">
+                                    Ingredienti
+                                </h6>
+                                <div class="card w-100 mb-3" style="margin: auto; text-align: center;">
+                                    <div class="card-body w-100 mb-3" style="margin: auto; text-align: center;">
+                                        <table class="table">
+                                            <thead>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td colspan="4">
+                                                        <button type="button" class="btn btn-success"
+                                                            style="width: 100%;" (click)="addRow()">
+                                                            Aggiungi ingrediente
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                                @for(elem of ingredients_dataAndControls; track $index){
+                                                @if(elem.ingredientQuantity){
+                                                <tr>
+                                                    <td>
+                                                        <input type="text" class="form-control" list="ingredientList"
+                                                            [ngModel]="elem.ingredientQuantity.ingredientName"
+                                                            aria-label="Ingrediente" [formControl]="elem.controls.name"
+                                                            [placeholder]="'Ingrediente'">
+                                                        <datalist id="ingredientList">
+                                                            @for(ingredient of ingredientList;track $index){
+                                                            <option [value]="ingredient.name">
+                                                                }
+                                                        </datalist>
+                                                    </td>
+                                                    <td>
+                                                        <input type="number" class="form-control" min="0"
+                                                            [ngModel]="elem.ingredientQuantity.quantity"
+                                                            aria-label="Quantità" [formControl]="elem.controls.quantity"
+                                                            [placeholder]="'Quantità'">
+                                                    </td>
+                                                    <td>
+                                                        <p>
+                                                            @for(ingredient of ingredientList;track $index){
+                                                            @if(elem.controls.name.value==ingredient.name){
+                                                            <input type="text" class="form-control" [value]="ingredient.unitOfMeasurement=='GRAMS'?'Grammi':
+                                                                    ingredient.unitOfMeasurement=='LITERS'?'Litri':
+                                                                    'Pezzi'" aria-label="Quantità" disabled>
+                                                            }
+                                                            }
+                                                        </p>
+                                                    </td>
+                                                    <div class="col">
+                                                        <button type="button" class="btn btn-danger"
+                                                            (click)="deleteRow($index)">
+                                                            Elimina
+                                                        </button>
+                                                    </div>
+                                                </tr>
+                                                }
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            }
+        </div>
+        <br />
+        @if(isAdmin){
+        <div class="row">
+            <div class="card w-50 mb-3" style="margin: auto;">
+                <div class="card-body" style="margin: auto; text-align: center;">
+                    <div class="row">
+                        <div class="col">
+                            <button type="submit" class="btn btn-success">
+                                Salva
+                            </button>
+                        </div>
+                        <div class="col">
+                            <button type="button" class="btn btn-warning" (click)="discard()">
+                                Annulla
+                            </button>
+                        </div>
+                        <div class="col">
+                            <button type="button" class="btn btn-danger" (click)="delete()">
+                                Elimina
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        }
+    </div>
+</form>

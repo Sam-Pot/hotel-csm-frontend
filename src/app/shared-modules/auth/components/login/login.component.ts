@@ -3,7 +3,8 @@ import { FormGroup, FormControl, Validators, FormsModule, ReactiveFormsModule } 
 import { ApiService } from '../../../api-http/api.service';
 import { UserApi } from '../../api/user.api';
 import { JwtService } from '../../services/jwt.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Helpers } from '../../../utils/helpers';
 
 @Component({
   selector: 'app-login',
@@ -35,7 +36,7 @@ export class LoginComponent {
   constructor(
     private apiService: ApiService,
     private jwtService: JwtService,
-    private router: Router,
+    private router: ActivatedRoute,
   ) { }
 
   displayForm(){

@@ -4,8 +4,10 @@ import { UserApi } from '../../../shared-modules/auth/api/user.api';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { JwtService } from '../../../shared-modules/auth/services/jwt.service';
-import { UpdateUserDto } from '../../../shared-modules/dtos/user-manager/user.dto';
+import { UpdateUserDto } from '../../../shared-modules/dtos/user-manager/update-user.dto';
 import { UpdatePasswordDto } from '../../../shared-modules/dtos/user-manager/update-password.dto';
+import { Helpers } from '../../../shared-modules/utils/helpers';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -39,6 +41,7 @@ export class ProfileComponent implements OnInit {
   constructor(
     private apiService: ApiService,
     private jwtService: JwtService,
+    private route: ActivatedRoute
   ) {
 
   }
@@ -126,6 +129,6 @@ export class ProfileComponent implements OnInit {
 
   logout() {
     this.jwtService.removeJwt();
-    window.location.reload();
+    Helpers.reloadPreviousLocation(this.route);
   }
 }

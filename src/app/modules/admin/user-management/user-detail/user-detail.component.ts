@@ -4,7 +4,7 @@ import { ApiService } from '../../../../shared-modules/api-http/api.service';
 import { CommonModule } from '@angular/common';
 import { UserApi } from '../../../../shared-modules/auth/api/user.api';
 import { ActivatedRoute } from '@angular/router';
-import { LocationUtils } from '../../../../shared-modules/utils/location.utils';
+import { Helpers } from '../../../../shared-modules/utils/helpers';
 
 @Component({
   selector: 'app-user-detail',
@@ -57,7 +57,7 @@ export class UserDetailComponent {
   }
 
   previousPage() {
-    LocationUtils.reloadPreviousLocation(this.route);
+    Helpers.reloadPreviousLocation(this.route);
   }
 
   updateRole(dataForm: any) {

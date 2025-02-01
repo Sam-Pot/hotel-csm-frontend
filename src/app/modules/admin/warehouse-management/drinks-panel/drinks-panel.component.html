@@ -9,14 +9,16 @@
         </button>
     </div>
     <div class="col-md-auto">
-        <h2 style="color: dodgerblue; margin: auto; margin-bottom: 20%;  margin-bottom: 5%; text-align: center;">Bevande</h2>
+        <h2 style="color: dodgerblue; margin: auto; margin-bottom: 20%;  margin-bottom: 5%; text-align: center;">Bibite
+        </h2>
 
     </div>
 </div>
 <div class="table-responsive" style="width: 80%; margin: auto;">
-    <table class="table table-hover">
+    <table class="table table-hover" style="text-align: center;">
         <thead>
             <tr>
+                @if(isDrinkManager){
                 <th scope="col">Id</th>
                 <th scope="col">Nome</th>
                 <th scope="col">Q.tà</th>
@@ -27,10 +29,14 @@
                 <th scope="col">Prezzo</th>
                 <th scope="col"></th>
                 <th scope="col"></th>
-
+                }@else {
+                <th scope="col">Nome</th>
+                <th scope="col">Prezzo</th>
+                }
             </tr>
         </thead>
-        <tbody style="text-align: center;">
+        <tbody >
+            @if(isDrinkManager){
             <tr>
                 <td colspan="10">
                     <a href="admin/warehouse/productDetail?productType={{productType}}&productType=">
@@ -40,8 +46,10 @@
                     </a>
                 </td>
             </tr>
+            }
             @for (drink of drinks; track $index) {
             <tr>
+                @if(isDrinkManager){
                 <td scope="col">{{drink.id}}</td>
                 <td scope="col">{{drink.name}}</td>
                 <td scope="col">{{drink.quantity}}</td>
@@ -50,8 +58,13 @@
                 <td scope="col">{{drink.unitOfMeasurement}}</td>
                 <td scope="col">{{drink.isActiveInMenu}}</td>
                 <td scope="col">{{drink.price}} €</td>
+                }@else {
+                <td scope="col">{{drink.name}}</td>
+                <td scope="col">{{drink.price}} €</td>
+                }
+                @if(isDrinkManager){
                 <td scope="col">
-                    <a href="admin/warehouse/productDetail?productType={{productType}}&productId={{drink.id}}">
+                    <a href="restaurant/drinks/productDetail?productType={{productType}}&productId={{drink.id}}">
                         <button type="button" class="btn btn-primary">
                             Apri
                         </button>
@@ -62,6 +75,7 @@
                         Elimina
                     </button>
                 </td>
+                }
             </tr>
             }
         </tbody>

@@ -1,0 +1,78 @@
+<div class="row justify-content-md-center" style="margin-top: 5%;">
+    <div class="col-md-auto">
+        <button type="button" class="btn btn-outline-primary" (click)="previousPage()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                class="bi bi-arrow-90deg-left" viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                    d="M1.146 4.854a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H12.5A2.5 2.5 0 0 1 15 6.5v8a.5.5 0 0 1-1 0v-8A1.5 1.5 0 0 0 12.5 5H2.707l3.147 3.146a.5.5 0 1 1-.708.708z" />
+            </svg>
+        </button>
+    </div>
+    <div class="col-md-auto">
+        <h2 style="color: dodgerblue; margin: auto; margin-bottom: 20%;  margin-bottom: 5%; text-align: center;">
+            Prenotazioni</h2>
+    </div>
+</div>
+<div class="table-responsive" style="width: 80%; margin: auto;">
+    <table class="table table-hover">
+        <thead style="text-align: center;">
+            <tr class="justify-content-md-center">
+                <th scope="col">Id</th>
+                <th scope="col">Tavolo</th>
+                @if(isReservationManager){
+                <th scope="col">Utente</th>
+                }
+                <th scope="col">Data e ora</th>
+                <th scope="col">N° Persone</th>
+                <th scope="col">Costo tot.</th>
+                <th scope="col">Stato</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+
+            </tr>
+        </thead>
+        <tbody style="text-align: center;">
+            <tr>
+                <td colspan="9">
+                    <a href="restaurant/restaurantReservations/restaurantReservationDetail?reservationId=">
+                        <button type="button" class="btn btn-success" style="width: 100%;">
+                            Aggiungi
+                        </button>
+                    </a>
+                </td>
+            </tr>
+            @for (reservation of reservations; track $index) {
+            <tr>
+                <td scope="col">{{reservation.id}}</td>
+                <td scope="col">{{reservation.tableId}}</td>
+                @if(isReservationManager){
+                <td scope="col">
+                    <a href="admin/users/userDetail?userId={{reservation.userId}}">
+                        {{reservation.userId}}
+                    </a>
+                </td>
+                }
+                <td scope="col">{{reservation.dateTime}}</td>
+                <td scope="col">{{reservation.numberOfPeople}}</td>
+                <td scope="col">{{reservation.totalCost}} €</td>
+                <td scope="col">{{reservationState[reservation?.state]}}</td>
+                <td scope="col">
+                    <a
+                        href="restaurant/restaurantReservations/restaurantReservationDetail?reservationId={{reservation.id}}">
+                        <button type="button" class="btn btn-primary">
+                            Apri
+                        </button>
+                    </a>
+                </td>
+                <td scope="col">
+                    @if(reservation?.state=='SENT'){
+                    <button type="button" class="btn btn-danger" (click)="delete(reservation.id)">
+                        Elimina
+                    </button>
+                    }
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>

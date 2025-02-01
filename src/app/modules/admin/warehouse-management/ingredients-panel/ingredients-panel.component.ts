@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ApiService } from '../../../../shared-modules/api-http/api.service';
 import { IngredientApi } from '../../../../shared-modules/auth/api/ingredient.api';
 import { ActivatedRoute } from '@angular/router';
-import { LocationUtils } from '../../../../shared-modules/utils/location.utils';
+import { Helpers } from '../../../../shared-modules/utils/helpers';
 
 @Component({
   selector: 'app-ingredients-panel',
@@ -45,7 +45,7 @@ export class IngredientsPanelComponent {
   }
 
   previousPage(){
-    LocationUtils.reloadPreviousLocation(this.route);
+    Helpers.reloadPreviousLocation(this.route);
   }
 
   delete(ingredientId: string) {

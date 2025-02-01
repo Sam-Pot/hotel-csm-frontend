@@ -1,1 +1,17 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <a style="margin-left: 2%;" class="navbar-brand" href="">Home</a>
+    <a class="navbar-brand" href="restaurant/dishes">Piatti</a>
+    <a class="navbar-brand" href="restaurant/drinks">Bibite</a>
+    @if(isLogged){
+    <a class="navbar-brand" href="restaurant/restaurantReservations">Prenotazioni-Ristorante</a>
+    @if(isAdmin){
+    <a class="navbar-brand" href="admin">Amministrazione</a>
+    }@else if (isRestaurantStaffOrCook) {
+    <a class="navbar-brand" href="admin/restaurant">Gestione-Ristorante</a>
+    }@else if (isStockman) {
+    <a class="navbar-brand" href="admin/warehouse">Gestione-Magazzino</a>
+    }
+    <a class="navbar-brand" href="profile">Profilo</a>
+    }
+</nav>
 <router-outlet />

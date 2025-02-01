@@ -1,0 +1,317 @@
+<div class="row justify-content-md-center" style="margin-top: 5%;">
+    <div class="col-md-auto">
+        <button type="button" class="btn btn-outline-primary" (click)="discard()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                class="bi bi-arrow-90deg-left" viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                    d="M1.146 4.854a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H12.5A2.5 2.5 0 0 1 15 6.5v8a.5.5 0 0 1-1 0v-8A1.5 1.5 0 0 0 12.5 5H2.707l3.147 3.146a.5.5 0 1 1-.708.708z" />
+            </svg>
+        </button>
+    </div>
+    <div class="col-md-auto">
+        <h2 style="color: dodgerblue; margin: auto; margin-bottom: 20%;  margin-bottom: 5%; text-align: center;">
+            {{this.id?"Dettagli Prenotazione": "Nuova Prenotazione"}}</h2>
+    </div>
+</div>
+<form [formGroup]="reservationForm" (ngSubmit)="id?update(reservationForm):save(reservationForm)">
+    <div class="card w-50 mb-3" style="margin: auto;">
+        <div class="card-body">
+            <div class="row">
+                <div class="col">
+                    <label class="form-label">
+                        Id
+                    </label>
+                    <input value="{{id}}" type="text" class="form-control" aria-label="Nome" disabled>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    @if(!isReservationManager){
+                    <label class="form-label" [hidden]="!reservation">
+                        Utente
+                    </label>
+                    @if(reservation?.id){
+                    <label style="background-color:whitesmoke" [hidden]="!reservation"
+                        class="form-control">{{reservation?.userId?reservation.userId:loggedUserId}}</label>
+                    }@else {
+                    <input type="text" class="form-control"
+                        [ngModel]="reservation?.userId?reservation.userId:loggedUserId" aria-label="Utente"
+                        formControlName="userId" [hidden]="!reservation">
+                    }
+                    }
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label class="form-label">
+                        Tavolo
+                    </label>
+                    <input type="text" class="form-control" list="tableList" [ngModel]="reservation?.tableId"
+                        aria-label="Tavolo" [placeholder]="'Seleziona Tavolo'" formControlName="tableId">
+                    <datalist id="tableList">
+                        @for(table of tableList;track $index){
+                        <option [value]="table.name">
+                            }
+                    </datalist>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label class="form-label">
+                        Data e ora
+                    </label>
+                    <input type="datetime-local" class="form-control" [ngModel]="reservation?.dateTime"
+                        aria-label="Data" formControlName="dateTime">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label class="form-label">
+                        N° Persone
+                    </label>
+                    <input type="number" min="1" class="form-control" [ngModel]="reservation?.numberOfPeople"
+                        aria-label="N Persone" formControlName="numberOfPeople">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label class="form-label">
+                        Costo totale
+                    </label>
+                    <input type="number" min="0" class="form-control" [value]="totalCost" aria-label="Costo totale"
+                        disabled="">
+                </div>
+            </div>
+            <div class="row">
+                @if(!isReservationManager){
+                <div class="col">
+                    <label class="form-label">
+                        Stato
+                    </label>
+                    <label style="background-color:whitesmoke"
+                        class="form-control">{{reservationState[reservation?.state]?reservationState[reservation?.state]:"BOZZA"}}</label>
+                </div>
+                }
+                @else {
+                <div class="col">
+                    <label class="form-label">
+                        Stato
+                    </label>
+                    <select class="form-control" formControlName="state">
+                        <option [selected]="reservation?.state=='SENT'" value="SENT">
+                            {{reservationState.SENT}}</option>
+                        <option [selected]="reservation?.state=='CONFIRMED'" value="CONFIRMED">
+                            {{reservationState.CONFIRMED}}</option>
+                        <option [selected]="reservation?.state=='CLOSED'" value="CLOSED">
+                            {{reservationState.CLOSED}}</option>
+                    </select>
+                </div>
+                }
+            </div>
+            <div class="row" style="margin-top: 5%;">
+                <div class="card w-100 mb-3" style="margin: auto;">
+                    <div class="card-body w-100 mb-3" style="margin: auto; text-align: center;">
+                        <div class="row">
+                            <div class="col">
+                                <h3 style="color: orange; margin: auto;  margin-bottom: 5%; text-align: center;">
+                                    Ordini
+                                </h3>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <h6 style="margin: auto; margin-bottom: 20%;  margin-bottom: 2%; text-align: center;">
+                                    Piatti
+                                </h6>
+                                <div class="card w-100 mb-3" style="margin: auto; text-align: center;">
+                                    <div class="card-body w-100 mb-3" style="margin: auto; text-align: center;">
+                                        <table class="table">
+                                            <thead>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td colspan="4">
+                                                        @if(!reservation?.id || reservation?.id &&
+                                                        (reservation?.state!='CLOSED')){
+                                                        <button type="button" class="btn btn-success"
+                                                            style="width: 100%;" (click)="addDish()">
+                                                            Aggiungi piatto
+                                                        </button>
+                                                        }
+                                                    </td>
+                                                </tr>
+                                                @for(elem of dishRequest_and_Controls; track $index){
+                                                @if(elem.dishQuantity){
+                                                <tr>
+                                                    <td>
+                                                        <input (change)="refreshTotalCost()" type="text"
+                                                            class="form-control" list="dishList"
+                                                            [ngModel]="elem.dishQuantity.dishName" aria-label="Piatto"
+                                                            [formControl]="elem.controls.dishName"
+                                                            [placeholder]="'Piatto'">
+                                                        <datalist id="dishList">
+                                                            @for(dish of dishList;track $index){
+                                                            <option [value]="dish.name">
+                                                                }
+                                                        </datalist>
+                                                    </td>
+                                                    <td>
+                                                        <input type="number" class="form-control" min="1"
+                                                            [ngModel]="elem.dishQuantity.quantity" aria-label="Quantità"
+                                                            [formControl]="elem.controls.quantity"
+                                                            [placeholder]="'Quantità'" (change)="refreshTotalCost()">
+                                                    </td>
+                                                    @if(!isReservationManager){
+                                                    <td>
+                                                        <label style="background-color:whitesmoke"
+                                                            class="form-control">{{reservationState[elem.dishQuantity.state]?reservationState[elem.dishQuantity.state]:'BOZZA'}}</label>
+                                                    </td>
+                                                    }@else{
+                                                    <td class="col">
+                                                        <select class="form-control"
+                                                            [formControl]="elem.controls.state">
+                                                            <option [selected]="elem.dishQuantity.state=='SENT'"
+                                                                value="SENT">
+                                                                {{reservationState.SENT}}</option>
+                                                            <option [selected]="elem.dishQuantity.state=='CONFIRMED'"
+                                                                value="CONFIRMED">
+                                                                {{reservationState.CONFIRMED}}</option>
+                                                            <option [selected]="elem.dishQuantity.state=='CLOSED'"
+                                                                value="CLOSED">
+                                                                {{reservationState.CLOSED}}</option>
+                                                        </select>
+                                                    </td>
+                                                    }
+                                                    <div class="col">
+                                                        @if(!reservation?.id || (reservation?.id && (elem.dishQuantity.state=='SENT' || !elem.dishQuantity.state) && reservation?.state!='CLOSED')){
+                                                        <button type="button" class="btn btn-danger"
+                                                            (click)="deleteDish($index)">
+                                                            Elimina
+                                                        </button>
+                                                        }
+                                                    </div>
+                                                </tr>
+                                                }
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <h6 style="margin: auto; margin-bottom: 20%;  margin-bottom: 2%; text-align: center;">
+                                    Bibite
+                                </h6>
+                                <div class="card w-100 mb-3" style="margin: auto; text-align: center;">
+                                    <div class="card-body w-100 mb-3" style="margin: auto; text-align: center;">
+                                        <table class="table">
+                                            <thead>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td colspan="4">
+                                                        @if(!reservation?.id || reservation?.id &&
+                                                        (reservation?.state!='CLOSED')){
+                                                        <button type="button" class="btn btn-success"
+                                                            style="width: 100%;" (click)="addDrink()">
+                                                            Aggiungi Bibita
+                                                        </button>
+                                                        }
+                                                    </td>
+                                                </tr>
+                                                @for(elem of drinkRequest_and_Controls; track $index){
+                                                @if(elem.drinkQuantity){
+                                                <tr>
+                                                    <td>
+                                                        <input type="text" class="form-control" list="drinkList"
+                                                            [ngModel]="elem.drinkQuantity.drinkName" aria-label="Piatto"
+                                                            [formControl]="elem.controls.drinkName"
+                                                            [placeholder]="'Bibita'" (change)="refreshTotalCost()">
+                                                        <datalist id="drinkList">
+                                                            @for(drink of drinkList;track $index){
+                                                            <option [value]="drink.name">
+                                                                }
+                                                        </datalist>
+                                                    </td>
+                                                    <td>
+                                                        <input type="number" class="form-control" min="1"
+                                                            [ngModel]="elem.drinkQuantity.quantity"
+                                                            aria-label="Quantità" [formControl]="elem.controls.quantity"
+                                                            [placeholder]="'Quantità'" (change)="refreshTotalCost()">
+                                                    </td>
+                                                    @if(!isReservationManager){
+                                                    <td>
+                                                        <label style="background-color:whitesmoke"
+                                                            class="form-control">{{reservationState[elem.drinkQuantity.state]?reservationState[elem.drinkQuantity.state]:
+                                                            'BOZZA'}}</label>
+                                                    </td>
+                                                    }@else {
+                                                    <td class="col">
+                                                        <select class="form-control"
+                                                            [formControl]="elem.controls.state">
+                                                            <option [selected]="elem.drinkQuantity.state=='SENT'"
+                                                                value="SENT">
+                                                                {{reservationState.SENT}}</option>
+                                                            <option [selected]="elem.drinkQuantity.state=='CONFIRMED'"
+                                                                value="CONFIRMED">
+                                                                {{reservationState.CONFIRMED}}</option>
+                                                            <option [selected]="elem.drinkQuantity.state=='CLOSED'"
+                                                                value="CLOSED">
+                                                                {{reservationState.CLOSED}}</option>
+                                                        </select>
+                                                    </td>
+                                                    }
+                                                    <div class="col">
+                                                        @if(!reservation?.id || (reservation?.id && (elem.drinkQuantity.state=='SENT' || !elem.drinkQuantity.state) && reservation?.state!='CLOSED')
+                                                        ){
+                                                        <button type="button" class="btn btn-danger"
+                                                            (click)="deleteDrink($index)">
+                                                            Elimina
+                                                        </button>
+                                                        }
+                                                    </div>
+                                                </tr>
+                                                }
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="card w-50 mb-3" style="margin: auto;">
+                <div class="card-body" style="margin: auto; text-align: center;">
+                    <div class="row">
+                        @if(reservation?.state!='CLOSED' || !reservation?.id){
+                        <div class="col">
+                            <button type="submit" class="btn btn-success">
+                                Invia
+                            </button>
+                        </div>
+                        }
+                        <div class="col">
+                            <button type="button" class="btn btn-warning" (click)="discard()">
+                                Annulla
+                            </button>
+                        </div>
+                        <div class="col">
+                            @if(reservation?.state=='SENT' || !reservation?.id){
+                            <button type="button" class="btn btn-danger" (click)="delete()">
+                                Elimina
+                            </button>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

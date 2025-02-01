@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ApiService } from '../../../../shared-modules/api-http/api.service';
 import { UserApi } from '../../../../shared-modules/auth/api/user.api';
-import { LocationUtils } from '../../../../shared-modules/utils/location.utils';
+import { Helpers } from '../../../../shared-modules/utils/helpers';
 
 @Component({
   selector: 'app-users-panel',
@@ -67,7 +67,7 @@ export class UsersPanelComponent implements OnInit {
     }
   }
   previousPage(){
-    LocationUtils.reloadPreviousLocation(this.route);
+    Helpers.reloadPreviousLocation(this.route);
   }
 
 }

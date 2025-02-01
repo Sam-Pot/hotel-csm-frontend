@@ -8,7 +8,9 @@ import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { CommonModule } from '@angular/common';
 import { UpdateProductDto } from '../../../../shared-modules/dtos/warehouse-manager/update-product.dto';
 import { Position } from '../../../../shared-modules/dtos/warehouse-manager/position';
-import { LocationUtils } from '../../../../shared-modules/utils/location.utils';
+import { Helpers } from '../../../../shared-modules/utils/helpers';
+import { Role } from '../../../../shared-modules/dtos/user-manager/role';
+import { JwtService } from '../../../../shared-modules/auth/services/jwt.service';
 
 @Component({
   selector: 'app-product-detail',
@@ -22,6 +24,7 @@ export class ProductDetailComponent {
   product: UpdateProductDto = {};
   id: string | null = null;
   type: string | null = null;
+
   LOAD_API: any;
   DELETE_API: any;
   SAVE_API: any;
@@ -48,12 +51,12 @@ export class ProductDetailComponent {
 
   constructor(
     private apiService: ApiService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private jwtService: JwtService
   ) {
   }
 
   ngOnInit(): void {
-    console.log(this.route);
     this.id = this.route.snapshot.queryParamMap.get("productId");
     this.type = this.route.snapshot.queryParamMap.get("productType");
     switch (this.type) {
@@ -97,8 +100,8 @@ export class ProductDetailComponent {
     }
   }
 
-  discard(){
-    LocationUtils.reloadPreviousLocation(this.route);
+  discard() {
+    Helpers.reloadPreviousLocation(this.route);
   }
 
   delete() {
@@ -135,7 +138,7 @@ export class ProductDetailComponent {
         quantityToOrder: productForm.value.quantityToOrder ? productForm.value.quantityToOrder : this.product.quantityToOrder,
         unitOfMeasurement: productForm.value.unitOfMeasurement ? productForm.value.unitOfMeasurement : this.product.unitOfMeasurement,
         price: this.type == 'drink' && productForm.value.price ? productForm.value.price : this.product.price,
-        isActiveInMenu: this.type == 'drink' && productForm.value.isActiveInMenu ? productForm.value.isActiveInMenu : this.product.isActiveInMenu,
+        isActiveInMenu: this.type == 'drink' && productForm.value.isActiveInMenu ? productForm.value.isActiveInMenu : false,
         position: position
       };
       this.apiService.put(this.UPDATE_API + "/" + (this.id ? this.id : ''), updateProductDto).subscribe(
@@ -170,7 +173,7 @@ export class ProductDetailComponent {
         quantityToOrder: productForm.value.quantityToOrder ? productForm.value.quantityToOrder : this.product.quantityToOrder,
         unitOfMeasurement: productForm.value.unitOfMeasurement ? productForm.value.unitOfMeasurement : this.product.unitOfMeasurement,
         price: this.type == 'drink' && productForm.value.price ? productForm.value.price : this.product.price,
-        isActiveInMenu: this.type == 'drink' && productForm.value.isActiveInMenu ? productForm.value.isActiveInMenu : this.product.isActiveInMenu,
+        isActiveInMenu: this.type == 'drink' && productForm.value.isActiveInMenu ? productForm.value.isActiveInMenu : false,
         position: position
       };
       this.apiService.post(this.SAVE_API, updateProductDto).subscribe(
